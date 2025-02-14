@@ -33,12 +33,11 @@ class LoginScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center, // Centra los elementos
           children: <Widget>[
             Text(
-              'BANORTE', 
+              'BANORTE',
               style: TextStyle(
-                fontSize: 150, 
-                color: Colors.white, 
-                fontWeight: FontWeight.bold
-              ),
+                  fontSize: 150,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 50), // Espacio entre el logo y los campos
             TextField(
@@ -93,7 +92,8 @@ class DashboardScreen extends StatelessWidget {
       ),
       body: Container(
         color: const Color.fromARGB(255, 173, 39, 29), // Fondo rojo
-        child: Center( // Asegura que todos los elementos estén centrados
+        child: Center(
+          // Asegura que todos los elementos estén centrados
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -102,7 +102,10 @@ class DashboardScreen extends StatelessWidget {
               children: <Widget>[
                 Text(
                   'Saldo Disponible:',
-                  style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -124,7 +127,8 @@ class DashboardScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AccountDetailsScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => AccountDetailsScreen()),
                     );
                   },
                   child: Text('Ver Detalles de Cuenta'),
@@ -175,7 +179,9 @@ class TransferScreen extends StatelessWidget {
                   onPressed: () {
                     // Simula una transferencia
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Transferencia Realizada Exitosamente')),
+                      SnackBar(
+                          content:
+                              Text('Transferencia Realizada Exitosamente')),
                     );
                   },
                   child: Text('Transferir'),
