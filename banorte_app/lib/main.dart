@@ -15,7 +15,107 @@ class BanorteApp extends StatelessWidget {
         primaryColor: const Color(0xFFFF0000),
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const DashboardScreen(),
+      home: const PreLoginScreen(),  // Cambiado para mostrar la pantalla de pre-login
+    );
+  }
+}
+
+class PreLoginScreen extends StatefulWidget {
+  const PreLoginScreen({Key? key}) : super(key: key);
+
+  @override
+  _PreLoginScreenState createState() => _PreLoginScreenState();
+}
+
+class _PreLoginScreenState extends State<PreLoginScreen> {
+  final TextEditingController _userIdController = TextEditingController();
+
+  // Simula el proceso de "autenticación" con Face ID
+  void _authenticateWithFaceID() {
+    if (_userIdController.text.isNotEmpty) {
+      // Simula la autenticación con Face ID
+      // En este ejemplo, simplemente redirigimos al dashboard si el ID de usuario no está vacío.
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const DashboardScreen()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, ingresa un ID de Usuario')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Banorte',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFFFF0000),
+              ),
+            ),
+            const SizedBox(height: 40),
+
+            // Campo de texto para el ID de usuario
+            TextField(
+              controller: _userIdController,
+              decoration: InputDecoration(
+                labelText: 'ID de Usuario',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Botón para iniciar sesión con ID de usuario
+            ElevatedButton(
+              onPressed: () {
+                if (_userIdController.text.isNotEmpty) {
+                  // Aquí puedes agregar validación para el ID de usuario
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const DashboardScreen()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Por favor, ingresa un ID de Usuario')),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFFF0000), // Color rojo
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
+              ),
+              child: const Text(
+                'Iniciar sesión',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Botón que simula el inicio de sesión con Face ID
+            ElevatedButton(
+              onPressed: _authenticateWithFaceID,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFFF0000), // Color rojo
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
+              ),
+              child: const Text(
+                'Iniciar sesión con Face ID',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -47,8 +147,7 @@ class DashboardScreen extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.notifications,
-                            color: Colors.white),
+                        icon: const Icon(Icons.notifications, color: Colors.white),
                         onPressed: () {},
                       ),
                       IconButton(
@@ -187,8 +286,8 @@ class DashboardScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-
-                    // Maya Recommendations
+                  
+                  // Maya Recommendations
                     Card(
                       child: Padding(
                         padding: const EdgeInsets.all(16),
@@ -204,7 +303,7 @@ class DashboardScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Basado en tus hábitos de gasto, podrías ahorrar:',
+                              'Basado en tus hábitos de gasto, podrías ahorrar: ',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[600],
@@ -244,6 +343,7 @@ class DashboardScreen extends StatelessWidget {
           ),
         ],
       ),
+    
       // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: const Color(0xFFFF0000),
