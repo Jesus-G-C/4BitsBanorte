@@ -32,7 +32,6 @@ class _MyHomePageState extends State<MyHomePage> {
     await ScreenProtector.preventScreenshotOn(); // Or use preventScreenshotOn(), preventScreenRecordOn()
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
