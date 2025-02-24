@@ -1,5 +1,6 @@
-package com.example.banorte_app
+package com.example.banorte_app // <-- Make sure this matches your package name
 
-import io.flutter.embedding.android.FlutterActivity
+// <-- Changed import
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity: FlutterActivity()
+class MainActivity : FlutterFragmentActivity()
