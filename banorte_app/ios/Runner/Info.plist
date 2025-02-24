@@ -6,6 +6,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Banorte App</string>
+	<key>NSFaceIDUsageDescription</key>
+    <string>¿Por qué Banorte necesita Face ID para iniciar sesión de forma segura?</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
