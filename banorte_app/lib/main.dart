@@ -6,7 +6,6 @@ import 'package:screen_protector/screen_protector.dart';
 void main() {
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
