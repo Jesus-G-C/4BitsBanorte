@@ -5,6 +5,7 @@ import 'my_cards_screen.dart';
 import 'transfer_screen.dart';
 import 'credit_card_payment_screen.dart';
 import 'spei_transfer_info_screen.dart';
+import 'package:screen_protector/screen_protector.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);

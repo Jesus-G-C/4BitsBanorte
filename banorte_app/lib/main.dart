@@ -1,13 +1,34 @@
 // main.dart
 import 'package:flutter/material.dart';
 import 'screens/pre_login_screen.dart';
+import 'package:screen_protector/screen_protector.dart';
 
 void main() {
-  runApp(const BanorteApp());
+  runApp(MyApp());
 }
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Banorte App',
+      home: MyHomePage(),
+    );
+  }
+}
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    _protectScreen(); // Call the protection method in initState
+  }
 
-class BanorteApp extends StatelessWidget {
-  const BanorteApp({Key? key}) : super(key: key);
+  Future<void> _protectScreen() async {
+    await ScreenProtector.preventScreenshotOn(); // Or use preventScreenshotOn(), preventScreenRecordOn()
+  }
 
   @override
   Widget build(BuildContext context) {
