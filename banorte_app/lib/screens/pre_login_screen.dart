@@ -1,4 +1,3 @@
-// screens/pre_login_screen.dart
 import 'package:banorte_app/screens/crear_cuenta.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart'; // Import local_auth
@@ -13,6 +12,8 @@ class PreLoginScreen extends StatefulWidget {
 
 class _PreLoginScreenState extends State<PreLoginScreen> {
   final TextEditingController _userIdController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _tokenController = TextEditingController(); // Para el token
   final LocalAuthentication auth = LocalAuthentication(); // Initialize LocalAuthentication
 
   // Function to authenticate with biometrics
@@ -35,7 +36,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
     if (!mounted) return; // Check if the widget is still in the widget tree
 
     if (authenticated) {
-      if (_userIdController.text.isNotEmpty) {
+      if (_userIdController.text.isNotEmpty && _passwordController.text.isNotEmpty) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const DashboardScreen()),
@@ -43,7 +44,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text('ID de usuario requerido para Face ID/Biometría')),
+              content: Text('ID de usuario y contraseña son requeridos para Face ID/Biometría')),
         );
       }
     } else {
@@ -76,7 +77,6 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -90,101 +90,123 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
     });
   }
 
-
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    body: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text(
-            'Banorte',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFFFF0000),
-            ),
-          ),
-          const SizedBox(height: 40),
-
-          // Campo de texto para el ID de usuario
-          TextField(
-            controller: _userIdController,
-            decoration: const InputDecoration(
-              labelText: 'ID de Usuario',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          // Botón para iniciar sesión con ID de usuario
-          ElevatedButton(
-            onPressed: () {
-              if (_userIdController.text.isNotEmpty) {
-                // Aquí puedes agregar validación para el ID de usuario
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const DashboardScreen()),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Por favor, ingresa un ID de Usuario')),
-                );
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFF0000), // Color rojo
-              padding:
-                  const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
-            ),
-            child: const Text(
-              'Iniciar sesión',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          // Botón que simula el inicio de sesión con Face ID
-          ElevatedButton(
-            onPressed: _authenticateWithFaceID, // Call the biometric auth function
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFF0000), // Color rojo
-              padding:
-                  const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
-            ),
-            child: const Text(
-              'Iniciar sesión con Face ID',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          // Botón para crear una nueva cuenta
-          TextButton(
-            onPressed: () {
-              // Navega a la pantalla de creación de cuenta
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const CreateAccountScreen()),
-              );
-            },
-            child: const Text(
-              'Registrarse',
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Banorte',
               style: TextStyle(
-                color: Color(0xFFFF0000), // Color rojo
-                fontSize: 16,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFFFF0000),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 40),
+
+            // Campo de texto para el ID de usuario
+            TextField(
+              controller: _userIdController,
+              decoration: const InputDecoration(
+                labelText: 'ID de Usuario',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Campo de texto para la contraseña
+            TextField(
+              controller: _passwordController,
+              obscureText: true, // Ocultar la contraseña
+              decoration: const InputDecoration(
+                labelText: 'Contraseña',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Campo de texto para el token
+            TextField(
+              controller: _tokenController,
+              decoration: const InputDecoration(
+                labelText: 'Token de Seguridad',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Botón para iniciar sesión con ID de usuario y contraseña
+            ElevatedButton(
+              onPressed: () {
+                if (_userIdController.text.isNotEmpty &&
+                    _passwordController.text.isNotEmpty &&
+                    _tokenController.text.isNotEmpty) {
+                  // Aquí puedes agregar validación para los campos
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const DashboardScreen()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('Por favor, ingresa todos los campos')),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFFF0000), // Color rojo
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
+              ),
+              child: const Text(
+                'Iniciar sesión',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Botón que simula el inicio de sesión con Face ID
+            ElevatedButton(
+              onPressed: _authenticateWithFaceID, // Call the biometric auth function
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFFF0000), // Color rojo
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
+              ),
+              child: const Text(
+                'Iniciar sesión con Face ID',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Botón para crear una nueva cuenta
+            TextButton(
+              onPressed: () {
+                // Navega a la pantalla de creación de cuenta
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateAccountScreen()),
+                );
+              },
+              child: const Text(
+                'Registrarse',
+                style: TextStyle(
+                  color: Color(0xFFFF0000), // Color rojo
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
- }
+    );
+  }
 }
