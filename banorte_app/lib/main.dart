@@ -1,7 +1,6 @@
 // main.dart
 import 'package:flutter/material.dart';
 import 'screens/pre_login_screen.dart';
-import 'package:screen_protector/screen_protector.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _protectScreen() async {
-    await ScreenProtector.preventScreenshotOn(); // Or use preventScreenshotOn(), preventScreenRecordOn()
+    //await ScreenProtector.preventScreenshotOn(); // Or use preventScreenshotOn(), preventScreenRecordOn()
   }
 
   @override

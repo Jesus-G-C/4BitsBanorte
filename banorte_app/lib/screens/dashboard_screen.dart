@@ -1,11 +1,12 @@
 // screens/dashboard_screen.dart
+import 'package:banorte_app/screens/maya_screen.dart';
+import 'package:banorte_app/screens/perfil_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/dashboard_content_widgets.dart';
 import 'my_cards_screen.dart';
 import 'transfer_screen.dart';
 import 'credit_card_payment_screen.dart';
 import 'spei_transfer_info_screen.dart';
-import 'package:screen_protector/screen_protector.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -18,8 +19,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    const DashboardContent(), // Contenido del Dashboard
-    const MyCardsScreen(),    // Contenido de Mis Tarjetas
+     DashboardContent(), // Contenido del Dashboard
+     MyCardsScreen(),    // Contenido de Mis Tarjetas
+     MayaScreen(),       //Contenido de Maya
+     MyProfileScreen(),  //Contenido de Perfil
   ];
 
   void _onItemTapped(int index) {
@@ -31,7 +34,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Bottom Navigation Bar
       body: _screens[_currentIndex], // Mostrar la pantalla correspondiente
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: const Color(0xFFFF0000),
@@ -56,6 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
+
 
 class DashboardContent extends StatelessWidget {
   const DashboardContent({Key? key}) : super(key: key);
