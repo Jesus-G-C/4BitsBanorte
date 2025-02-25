@@ -1,9 +1,23 @@
 // main.dart
 import 'package:flutter/material.dart';
 import 'screens/pre_login_screen.dart';
-import 'package:screen_protector/screen_protector.dart';
+import 'package:screen_protector/screen_protector.dart';//Anti-ScreenShot
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart'; // Import generated firebase_options.dart
+
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart'; // Import generated firebase_options.dart
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:developer'; // Import for using log
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform, // Use firebase_options.dart
+  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler); // Set background handler
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -29,6 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _protectScreen() async {
     await ScreenProtector.preventScreenshotOn(); // Or use preventScreenshotOn(), preventScreenRecordOn()
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
