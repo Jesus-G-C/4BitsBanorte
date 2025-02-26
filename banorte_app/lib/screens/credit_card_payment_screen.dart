@@ -1,5 +1,6 @@
 // screens/credit_card_payment_screen.dart
 import 'package:flutter/material.dart';
+import 'receipt_generator.dart';
 
 // Nueva pantalla de pago de tarjeta de crédito
 class CreditCardPaymentScreen extends StatefulWidget {
@@ -57,39 +58,36 @@ class _CreditCardPaymentScreenState extends State<CreditCardPaymentScreen> {
             ElevatedButton(
               onPressed: () {
                 if (_amountController.text.isNotEmpty) {
-                  double amountToPay =
-                      double.tryParse(_amountController.text) ?? 0.0;
+                  double amountToPay = double.tryParse(_amountController.text) ?? 0.0;
 
                   if (amountToPay > 0 && amountToPay <= debt) {
                     setState(() {
-                      debt -= amountToPay; // Restar el monto del adeudo
+                      debt -= amountToPay;
                     });
+
+                    // Llamar a la clase generadora de recibos
+                    ReceiptGenerator.generateReceipt(
+                      senderName: "Usuario",  // Aquí coloca el nombre real del usuario
+                      senderClabe: "123456789012345678",  // Aquí coloca la CLABE real
+                      recipientName: "Banorte",
+                      recipientClabe: "-",
+                      amount: amountToPay,
+                    );
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Pago realizado con éxito')),
                     );
-                    _amountController
-                        .clear(); // Limpiar el campo de texto después de pagar
-                  } else if (amountToPay > debt) {
+                    _amountController.clear();
+                  } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text(
-                              'El monto a pagar no puede ser mayor al adeudo')),
+                      const SnackBar(content: Text('Monto inválido')),
                     );
                   }
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Por favor, ingresa el monto a pagar')),
-                  );
                 }
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFF0000),
-                padding:
-                const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
-              ),
-              child: const Text('Pagar', style: TextStyle(fontSize: 16)),
+              child: const Text('Pagar'),
             ),
+
           ],
         ),
       ),
