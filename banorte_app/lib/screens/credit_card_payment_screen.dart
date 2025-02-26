@@ -1,7 +1,6 @@
-// screens/credit_card_payment_screen.dart
 import 'package:flutter/material.dart';
+import 'payment_receipt_generator.dart'; // Importar PaymentReceiptGenerator
 
-// Nueva pantalla de pago de tarjeta de crédito
 class CreditCardPaymentScreen extends StatefulWidget {
   const CreditCardPaymentScreen({Key? key}) : super(key: key);
 
@@ -11,85 +10,84 @@ class CreditCardPaymentScreen extends StatefulWidget {
 }
 
 class _CreditCardPaymentScreenState extends State<CreditCardPaymentScreen> {
-  double debt = 1500.00; // Monto inicial del adeudo
   final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _cardHolderController = TextEditingController();
+  final TextEditingController _cardNumberController = TextEditingController();
+
+  void _processPayment() {
+    // Validación de los campos de pago (monto, titular de la tarjeta, número de tarjeta)
+    if (_amountController.text.isNotEmpty &&
+        _cardHolderController.text.isNotEmpty &&
+        _cardNumberController.text.isNotEmpty) {
+      // Aquí llamas a PaymentReceiptGenerator para generar el recibo en PDF
+      PaymentReceiptGenerator.generateReceipt(
+        'Tarjeta de Crédito' as BuildContext, // Método de pago
+        _amountController.text, // Monto
+        _cardHolderController.text, // Nombre del titular
+        _cardNumberController.text, // Número de tarjeta
+        DateTime.now(), // Fecha del pago
+      );
+
+      // Mostrar mensaje de éxito
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Pago realizado con éxito y recibo generado')),
+      );
+    } else {
+      // Si algún campo está vacío, mostrar error
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, completa todos los campos')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFF0000),
-        title: const Text('Pagar Tarjeta de Crédito'),
+        title: const Text('Pago con Tarjeta de Crédito'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Sección de ícono de tarjeta con adeudo
-            Row(
-              children: [
-                const Icon(Icons.credit_card,
-                    size: 40, color: Color(0xFFFF0000)),
-                const SizedBox(width: 12),
-                Text(
-                  'Adeudo: \$${debt.toStringAsFixed(2)}', // Mostrar el adeudo actualizado
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
-            const Text('Monto a Pagar',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const Text('Monto'),
             TextField(
               controller: _amountController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
-                hintText: 'Ejemplo: 1,000.00',
+                hintText: 'Ingresa el monto del pago',
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {
-                if (_amountController.text.isNotEmpty) {
-                  double amountToPay =
-                      double.tryParse(_amountController.text) ?? 0.0;
-
-                  if (amountToPay > 0 && amountToPay <= debt) {
-                    setState(() {
-                      debt -= amountToPay; // Restar el monto del adeudo
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Pago realizado con éxito')),
-                    );
-                    _amountController
-                        .clear(); // Limpiar el campo de texto después de pagar
-                  } else if (amountToPay > debt) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text(
-                              'El monto a pagar no puede ser mayor al adeudo')),
-                    );
-                  }
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Por favor, ingresa el monto a pagar')),
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFF0000),
-                padding:
-                const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
+            const SizedBox(height: 10),
+            const Text('Titular de la tarjeta'),
+            TextField(
+              controller: _cardHolderController,
+              decoration: const InputDecoration(
+                hintText: 'Ingresa el titular de la tarjeta',
+                border: OutlineInputBorder(),
               ),
-              child: const Text('Pagar', style: TextStyle(fontSize: 16)),
             ),
+            const SizedBox(height: 10),
+            const Text('Número de tarjeta'),
+            TextField(
+              controller: _cardNumberController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                hintText: 'Ingresa el número de tarjeta',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _processPayment,
+              child: const Text('Realizar Pago'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red, // Cambio de 'primary' a 'backgroundColor'
+              ),
+            ),
+
           ],
         ),
       ),

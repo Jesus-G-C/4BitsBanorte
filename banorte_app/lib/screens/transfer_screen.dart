@@ -1,5 +1,7 @@
 // screens/transfer_screen.dart
 import 'package:flutter/material.dart';
+import 'payment_receipt_generator.dart'; // Asegúrate de usar la ruta correcta
+
 
 class TransferScreen extends StatefulWidget {
   const TransferScreen({Key? key}) : super(key: key);
