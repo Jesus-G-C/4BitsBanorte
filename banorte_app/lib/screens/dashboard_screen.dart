@@ -1,6 +1,8 @@
 // screens/dashboard_screen.dart
 import 'package:banorte_app/screens/maya_screen.dart';
+import 'package:banorte_app/screens/notifications_screen.dart';
 import 'package:banorte_app/screens/perfil_screen.dart';
+import 'package:banorte_app/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/dashboard_content_widgets.dart';
 import 'my_cards_screen.dart';
@@ -86,21 +88,30 @@ class DashboardContent extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.notifications,
-                            color: Colors.white),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.settings, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                    ],
+                    IconButton(
+                      icon: const Icon(Icons.notifications, color: Colors.white),
+                      onPressed: () {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NotificationsScreen()),
+                  );
+                },
+              ),
+                    IconButton(
+                      icon: const Icon(Icons.settings, color: Colors.white),
+                      onPressed: () {
+                    Navigator.push(
+                      context,
+                    MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                      );
+                    },
                   ),
                 ],
               ),
-            ),
+            ],
           ),
+        ),
+      ),
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
