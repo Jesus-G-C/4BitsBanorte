@@ -180,7 +180,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
               ),
               child: const Text(
-                'Iniciar sesión con Face ID',
+                'Iniciar sesión con Biometría',
                 style: TextStyle(fontSize: 16),
               ),
             ),

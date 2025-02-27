@@ -82,18 +82,17 @@ class MayaScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Center(
+            Align(
+              alignment: Alignment.bottomCenter, // Asegura que la imagen esté centrada en la parte inferior
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end, // Empuja el contenido hacia abajo
                 children: [
-                  const Text(
-                    "Impulsado por Maya",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
                   const SizedBox(height: 5),
                   Image.asset(
-                    'assets/ai_logo', // Asegúrate de tener este archivo en la carpeta assets
-                    width: 50,
+                    'assets/maya.jpg', 
+                    width: 250,
                     height: 50,
+                    fit: BoxFit.contain,
                   ),
                 ],
               ),
