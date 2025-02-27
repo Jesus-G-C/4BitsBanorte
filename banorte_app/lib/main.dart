@@ -27,7 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _protectScreen() async {
-    //await ScreenProtector.preventScreenshotOn(); // Or use preventScreenshotOn(), preventScreenRecordOn()
+    await ScreenProtector.preventScreenshotOn(); // Or use preventScreenshotOn(), preventScreenRecordOn()
   }
 
   @override

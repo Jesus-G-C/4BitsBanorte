@@ -129,3 +129,4 @@ class MayaRecommendationItem extends StatelessWidget {
     );
   }
 }
+

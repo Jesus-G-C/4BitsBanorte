@@ -1,7 +1,7 @@
-// screens/dashboard_screen.dart
 import 'package:banorte_app/screens/maya_screen.dart';
 import 'package:banorte_app/screens/notifications_screen.dart';
 import 'package:banorte_app/screens/perfil_screen.dart';
+import 'package:banorte_app/screens/services_screen.dart';
 import 'package:banorte_app/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/dashboard_content_widgets.dart';
@@ -24,6 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
      DashboardContent(), // Contenido del Dashboard
      MyCardsScreen(),    // Contenido de Mis Tarjetas
      MayaScreen(),       //Contenido de Maya
+     ServicesScreen(),
      MyProfileScreen(),  //Contenido de Perfil
   ];
 
@@ -53,8 +54,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               label: 'Maya',
             ),
-          const BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), label: 'Profile'),
+          const BottomNavigationBarItem(icon: Icon(Icons.extension), label: 'Servicios'),
+          const BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Profile'),
         ],
       ),
     );
@@ -317,6 +318,37 @@ class DashboardContent extends StatelessWidget {
                             ),
                           ],
                         ),
+                      ),
+                    ),
+
+                    // Anuncios
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      color: const Color(0xEFE0AB55),
+                      margin: const EdgeInsets.only(top: 16),
+                      child: Column(
+                        children: [
+                          const Text(
+                            '¡No te pierdas las últimas ofertas!',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Aprovecha descuentos exclusivos en nuestras plataformas de pago. ¡Haz clic aquí para más detalles!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          const SizedBox(height: 8),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Agregar acción al botón
+                            },
+                            child: const Text('Ver Ofertas'),
+                          ),
+                        ],
                       ),
                     ),
                   ],

@@ -13,7 +13,7 @@ class PreLoginScreen extends StatefulWidget {
 class _PreLoginScreenState extends State<PreLoginScreen> {
   final TextEditingController _userIdController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _tokenController = TextEditingController(); // Para el token
+  final TextEditingController _tokenController = TextEditingController(); // For the token
   final LocalAuthentication auth = LocalAuthentication(); // Initialize LocalAuthentication
 
   // Function to authenticate with biometrics
@@ -22,7 +22,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
     try {
       authenticated = await auth.authenticate(
         localizedReason:
-        'Escanea tu huella digital o rostro para iniciar sesión en Banorte', // Message shown to the user
+            'Escanea tu huella digital o rostro para iniciar sesión en Banorte',
         options: const AuthenticationOptions(
           useErrorDialogs: true, // Show error dialogs to the user
           stickyAuth: true,      // Keep authentication session sticky
@@ -93,119 +93,181 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Container(
+        color: Colors.white, // White background instead of gradient
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              'Banorte',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFFFF0000),
-              ),
+            // Red rectangle at the top
+            Container(
+              height: 80, // Adjust height as needed
+              color: const Color(0xFFFF0000), // Red color
             ),
-            const SizedBox(height: 40),
+            Expanded(
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Banorte Logo
+                      Image.asset(
+                        'assets/banorte_logo.png',
+                        height: 100,
+                        width: 300,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(Icons.error, color: Colors.red, size: 100); // Fallback if logo fails
+                        },
+                      ),
+                      const SizedBox(height: 40),
 
-            // Campo de texto para el ID de usuario
-            TextField(
-              controller: _userIdController,
-              decoration: const InputDecoration(
-                labelText: 'ID de Usuario',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
+                      // ID de Usuario TextField
+                      TextField(
+                        controller: _userIdController,
+                        decoration: InputDecoration(
+                          labelText: 'ID de Usuario',
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
 
-            // Campo de texto para la contraseña
-            TextField(
-              controller: _passwordController,
-              obscureText: true, // Ocultar la contraseña
-              decoration: const InputDecoration(
-                labelText: 'Contraseña',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
+                      // Contraseña TextField
+                      TextField(
+                        controller: _passwordController,
+                        obscureText: true, // Hide password
+                        decoration: InputDecoration(
+                          labelText: 'Contraseña',
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
 
-            // Campo de texto para el token
-            TextField(
-              controller: _tokenController,
-              decoration: const InputDecoration(
-                labelText: 'Token de Seguridad',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
+                      // Token de Seguridad TextField
+                      TextField(
+                        controller: _tokenController,
+                        decoration: InputDecoration(
+                          labelText: 'Token de Seguridad',
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
 
-            // Botón para iniciar sesión con ID de usuario y contraseña
-            ElevatedButton(
-              onPressed: () {
-                if (_userIdController.text.isNotEmpty &&
-                    _passwordController.text.isNotEmpty &&
-                    _tokenController.text.isNotEmpty) {
-                  // Aquí puedes agregar validación para los campos
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const DashboardScreen()),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Por favor, ingresa todos los campos')),
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFF0000), // Color rojo
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
-              ),
-              child: const Text(
-                'Iniciar sesión',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            const SizedBox(height: 20),
+                      // Iniciar Sesión Button
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_userIdController.text.isNotEmpty &&
+                              _passwordController.text.isNotEmpty &&
+                              _tokenController.text.isNotEmpty) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const DashboardScreen()),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Por favor, ingresa todos los campos')),
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFF0000),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20), // Rounded like in the image
+                          ),
+                        ),
+                        child: const Text(
+                          'Iniciar Sesión',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
 
-            // Botón que simula el inicio de sesión con Face ID
-            ElevatedButton(
-              onPressed: _authenticateWithFaceID, // Call the biometric auth function
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFF0000), // Color rojo
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
-              ),
-              child: const Text(
-                'Iniciar sesión con Biometría',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            const SizedBox(height: 20),
+                      // Iniciar Sesión con Biometría Button
+                      ElevatedButton(
+                        onPressed: _authenticateWithFaceID, // Call the biometric auth function
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFF0000),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20), // Rounded like in the image
+                          ),
+                        ),
+                        child: const Text(
+                          'Iniciar Sesión con Biometría',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
 
-            // Botón para crear una nueva cuenta
-            TextButton(
-              onPressed: () {
-                // Navega a la pantalla de creación de cuenta
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CreateAccountScreen()),
-                );
-              },
-              child: const Text(
-                'Registrarse',
-                style: TextStyle(
-                  color: Color(0xFFFF0000), // Color rojo
-                  fontSize: 16,
+                      // Registrarse Button
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CreateAccountScreen()),
+                          );
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: const Color(0xFFFF0000),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20), // Rounded like in the image
+                          ),
+                        ),
+                        child: const Text(
+                          'Registrarse',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
                 ),
               ),
             ),
+            // Red rectangle at the bottom
+            Container(
+              height: 80, // Adjust height as needed
+              color: const Color(0xFFFF0000), // Red color
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// Placeholder for ForgotPasswordScreen (replace with your actual implementation)
+class ForgotPasswordScreen extends StatelessWidget {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Olvidé mi contraseña'),
+      ),
+      body: const Center(
+        child: Text('Implement Forgot Password functionality here.'),
       ),
     );
   }
