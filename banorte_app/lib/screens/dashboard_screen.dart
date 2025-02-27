@@ -42,18 +42,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
         unselectedItemColor: Colors.grey,
         currentIndex: _currentIndex,
         onTap: _onItemTapped, // Cambiar pantalla al tocar un ítem
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
+        items: [
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
+          const BottomNavigationBarItem(icon: Icon(Icons.credit_card), label: 'Tarjetas'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.credit_card), label: 'Tarjetas'),
-          BottomNavigationBarItem(
-              icon: Text('M',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Color(0xFFFF0000))),
-              label: 'Maya'),
-          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/maya_logo.png', 
+              width: 30, 
+              height: 30,
+              ),
+              label: 'Maya',
+            ),
+          const BottomNavigationBarItem(
               icon: Icon(Icons.account_circle), label: 'Profile'),
         ],
       ),
@@ -297,7 +297,12 @@ class DashboardContent extends StatelessWidget {
                               ),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const MayaScreen()),
+                                );
+                              },
                               style: TextButton.styleFrom(
                                 foregroundColor: const Color(0xFFFF0000),
                                 padding: EdgeInsets.zero,
