@@ -1,4 +1,5 @@
 // screens/transfer_screen.dart
+import 'receipt_generator.dart';
 import 'package:flutter/material.dart';
 
 class TransferScreen extends StatefulWidget {
@@ -116,14 +117,40 @@ class _TransferScreenState extends State<TransferScreen> {
                       backgroundColor: const Color(0xFFFF0000),
                     ),
                   ),
-                if (_currentStep == 2)
-                  ElevatedButton(
-                    onPressed: _finishTransfer,
-                    child: const Text('Confirmar Transferencia'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFF0000),
-                    ),
-                  ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_amountController.text.isNotEmpty &&
+                        _recipientController.text.isNotEmpty) {
+                      double transferAmount = double.tryParse(_amountController.text) ?? 0.0;
+
+                      if (transferAmount > 0) {
+                        // Llamar a la clase generadora de recibos
+                        ReceiptGenerator.generateReceipt(
+                          senderName: "Usuario",  // Aquí coloca el nombre real del usuario
+                          senderClabe: "123456789012345678",  // Aquí coloca la CLABE real
+                          recipientName: _recipientController.text,
+                          recipientClabe: "987654321098765432", // Aquí coloca la CLABE real
+                          amount: transferAmount,
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Transferencia realizada con éxito')),
+                        );
+                        Navigator.pop(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Monto inválido')),
+                        );
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Por favor, completa todos los campos')),
+                      );
+                    }
+                  },
+                  child: const Text('Confirmar Transferencia'),
+                ),
+
               ],
             ),
           ],

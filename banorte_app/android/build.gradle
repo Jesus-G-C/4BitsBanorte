@@ -1,3 +1,15 @@
+buildscript {
+    ext.kotlin_version = '1.8.20' // Update Kotlin version
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:7.3.0") // Or latest version
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -5,14 +17,23 @@ allprojects {
     }
 }
 
-rootProject.buildDir = "../build"
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(":app")
-}
+ext {
+        kotlin_version = "1.7.10"
+        flutter_gradle_plugin_version = "1.0.0"  // ADDED this line
+    }
 
-tasks.register("clean", Delete) {
+
+
+
+    rootProject.buildDir = "../build"
+    subprojects {
+        project.buildDir = "${rootProject.buildDir}/${project.name}"
+    }
+    subprojects {
+        project.evaluationDependsOn(":app")
+    }
+
+
+task clean(type: Delete) { // **Note:** This is the default Gradle clean task - DO NOT modify/remove this one.
     delete rootProject.buildDir
 }
