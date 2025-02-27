@@ -1,5 +1,6 @@
 // main.dart
 import 'package:flutter/material.dart';
+import 'package:screen_protector/screen_protector.dart';
 import 'screens/pre_login_screen.dart';
 
 void main() {
