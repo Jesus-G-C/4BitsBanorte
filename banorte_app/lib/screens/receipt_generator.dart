@@ -3,18 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 
 class ReceiptGenerator {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
   FlutterLocalNotificationsPlugin();
 
-  // Inicializar notificaciones
-  static void initializeNotifications() {
+  // Initialize Notifications
+  static void initializeNotifications() async {
     const AndroidInitializationSettings androidInit =
     AndroidInitializationSettings('@mipmap/ic_launcher');
-    const InitializationSettings initSettings =
-    InitializationSettings(android: androidInit);
-    _notificationsPlugin.initialize(initSettings);
+
+    final DarwinInitializationSettings iosInit = DarwinInitializationSettings();
+
+    final InitializationSettings initSettings =
+    InitializationSettings(android: androidInit, iOS: iosInit);
+
+    await _notificationsPlugin.initialize(initSettings);
+
+    // Request permissions for iOS
+    await _notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
   }
 
   static Future<void> generateReceipt({
@@ -25,12 +36,11 @@ class ReceiptGenerator {
     required double amount,
   }) async {
     try {
-      // Obtener la fecha y hora actual
+      // Get formatted date
       DateTime now = DateTime.now();
-      String formattedDate =
-          "${now.year}-${now.month}-${now.day} ${now.hour}:${now.minute}:${now.second}";
+      String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
 
-      // Crear documento PDF
+      // Create PDF document
       final pdf = pw.Document();
 
       pdf.addPage(
@@ -51,7 +61,7 @@ class ReceiptGenerator {
                   pw.Text("CLABE Destino: $recipientClabe"),
                   pw.Text("Monto: \$${amount.toStringAsFixed(2)}"),
                   pw.SizedBox(height: 20),
-                  pw.Text("Gracias por usar BanCoopel"),
+                  pw.Text("Gracias por usar Banorte"),
                 ],
               ),
             );
@@ -59,13 +69,19 @@ class ReceiptGenerator {
         ),
       );
 
-      // Guardar el PDF en la carpeta de descargas
-      final Directory directory = await getApplicationDocumentsDirectory();
+      // Save PDF to the appropriate directory
+      Directory directory;
+      if (Platform.isAndroid) {
+        directory = Directory('/storage/emulated/0/Download'); // Downloads folder
+      } else {
+        directory = await getApplicationDocumentsDirectory(); // iOS alternative
+      }
+
       final String path = '${directory.path}/comprobante_pago.pdf';
       final File file = File(path);
       await file.writeAsBytes(await pdf.save());
 
-      // Mostrar notificación
+      // Show notification
       _showNotification();
 
       print("PDF guardado en: $path");
@@ -74,7 +90,7 @@ class ReceiptGenerator {
     }
   }
 
-  // Método para mostrar la notificación
+  // Show Notification
   static Future<void> _showNotification() async {
     const AndroidNotificationDetails androidDetails =
     AndroidNotificationDetails(
