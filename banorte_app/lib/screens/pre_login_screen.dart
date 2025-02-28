@@ -130,7 +130,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
+                            borderSide: const BorderSide(color: Colors.grey, width: 1.5),
                           ),
                         ),
                       ),
@@ -139,14 +139,14 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                       // Contraseña TextField
                       TextField(
                         controller: _passwordController,
-                        obscureText: true, // Hide password
+                        obscureText: true, 
                         decoration: InputDecoration(
                           labelText: 'Contraseña',
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
+                            borderSide: const BorderSide(color: Colors.grey, width: 1.5),
                           ),
                         ),
                       ),
@@ -155,13 +155,14 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                       // Token de Seguridad TextField
                       TextField(
                         controller: _tokenController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Token de Seguridad',
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
+                            borderSide: const BorderSide(color: Colors.grey, width: 1.5),
                           ),
                         ),
                       ),
